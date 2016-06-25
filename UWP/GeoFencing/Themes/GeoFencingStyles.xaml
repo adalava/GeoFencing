@@ -16,7 +16,8 @@
     </ResourceDictionary.ThemeDictionaries>
 
     <converters:BooleanToInverseBooleanConverter x:Key="BooleanToInverseBooleanConverter"/>
-    
+    <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
     <Style x:Key="SplitViewMenuButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />

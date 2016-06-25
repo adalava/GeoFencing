@@ -20,14 +20,18 @@ namespace GeoFencing.ViewModels
     public class GeoFencingItemPageViewModel : ViewModelBase
     {
         private INavigationService navigationService;
-        private string name;
+        private IResourceLoader resourceLoader;
+
+        private string name, errorMessage;
         private double latitude, longitude, radius;
+        
         private IList<Geofence> geofences;
         private string editingGeofenceName = null;
-
+        
         public GeoFencingItemPageViewModel(INavigationService navigationService, IResourceLoader resourceLoader)
         {
             this.navigationService = navigationService;
+            this.resourceLoader = resourceLoader;
             this.SaveGeofencing = new DelegateCommand(SaveGeofenceItem);
         }
 
@@ -80,6 +84,26 @@ namespace GeoFencing.ViewModels
         }
 
         public ICommand SaveGeofencing { get; private set; }
+        public string ErrorMessage
+        {
+            get
+            {
+                return this.errorMessage;
+            }
+
+            private set
+            {
+                this.SetProperty(ref this.errorMessage, value);
+                this.OnPropertyChanged("IsError");
+            }
+        }
+        public bool IsError
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(this.ErrorMessage);
+            }
+        }
 
         public override async void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
         {
@@ -127,59 +151,80 @@ namespace GeoFencing.ViewModels
         {
             bool success = false;
 
-            // Define the fence location and radius.
-            BasicGeoposition position;
-            position.Latitude = this.Latitude;
-            position.Longitude = this.Longitude;
-            position.Altitude = 0.0;
-
-            // Set a circular region for the geofence.
-            Geocircle geocircle = new Geocircle(position, this.Radius);
-
-            // Set the monitored states.
-            MonitoredGeofenceStates monitoredStates =
-                            MonitoredGeofenceStates.Entered |
-                            MonitoredGeofenceStates.Exited |
-                            MonitoredGeofenceStates.Removed;
-
-            // check if there is a geo fence with same name. if yes, remove it
-            var currGeofence = geofences.Where(gf => gf.Id == this.editingGeofenceName).FirstOrDefault();
-            int index = geofences.Count;
-
-            if (currGeofence != null)
+            if (this.IsValid())
             {
-                index = this.geofences.IndexOf(currGeofence);
-                this.geofences.Remove(currGeofence);
-                this.editingGeofenceName = string.Empty;
-            }
+                // Define the fence location and radius.
+                BasicGeoposition position;
+                position.Latitude = this.Latitude;
+                position.Longitude = this.Longitude;
+                position.Altitude = 0.0;
 
-            // Create the geofence.
-            Geofence geofence = new Geofence(this.Name, geocircle, monitoredStates, false);
+                // Set a circular region for the geofence.
+                Geocircle geocircle = new Geocircle(position, this.Radius);
 
-            try
-            {
-                // Add to geo fence monitor
-                geofences.Insert(index, geofence);
-                success = true;
-            }
-            catch (Exception ex)
-            {
-                success = false;                
-            }
+                // Set the monitored states.
+                MonitoredGeofenceStates monitoredStates =
+                                MonitoredGeofenceStates.Entered |
+                                MonitoredGeofenceStates.Exited |
+                                MonitoredGeofenceStates.Removed;
 
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                if (success)
+                // check if there is a geo fence with same name. if yes, remove it
+                var currGeofence = geofences.Where(gf => gf.Id == this.editingGeofenceName).FirstOrDefault();
+                int index = geofences.Count;
+
+                if (currGeofence != null)
                 {
-                    var dialog = new MessageDialog("Geofence saved!");
-                    await dialog.ShowAsync();
+                    index = this.geofences.IndexOf(currGeofence);
+                    this.geofences.Remove(currGeofence);
+                    this.editingGeofenceName = string.Empty;
                 }
-                else
+
+                // Create the geofence.
+                Geofence geofence = new Geofence(this.Name, geocircle, monitoredStates, false);
+
+                try
                 {
-                    var dialog = new MessageDialog("Error saving geofence");
-                    await dialog.ShowAsync();
+                    // Add to geo fence monitor
+                    geofences.Insert(index, geofence);
+                    success = true;
                 }
-            });
+                catch (Exception)
+                {
+                    success = false;
+                }
+
+                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                {
+                    if (success)
+                    {
+                        var dialog = new MessageDialog("Geofence saved!");
+                        await dialog.ShowAsync();
+                    }
+                    else
+                    {
+                        var dialog = new MessageDialog("Error saving geofence");
+                        await dialog.ShowAsync();
+                    }
+                });
+            }
+        }
+
+        private bool IsValid()
+        {
+            if (this.Latitude == 0 || this.Longitude == 0)
+            {
+                this.ErrorMessage = this.resourceLoader.GetString("LatitudeLongitudeInvalid");
+            }
+            else if (this.Radius <= 0)
+            {
+                this.ErrorMessage = this.resourceLoader.GetString("RadiusInvalid");
+            }
+            else if (string.IsNullOrEmpty(this.Name) || (this.editingGeofenceName == null && geofences.Where(gf => gf.Id.Equals(this.Name)).Count() > 0))
+            {
+                this.ErrorMessage = this.resourceLoader.GetString("NameInvalid");
+            }
+
+            return !this.IsError;
         }
     }
 }

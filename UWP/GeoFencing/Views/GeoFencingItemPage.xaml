@@ -31,26 +31,29 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Text="Name" Margin="0,4"/>
+            <TextBlock Grid.Row="0" x:Uid="NameField" Text=".Name" Margin="0,4"/>
             <TextBox Grid.Row="0" Grid.Column="1" x:Name="Name" Margin="0,4" Text="{Binding Name, Mode=TwoWay}"/>
 
             <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal">
                 <HyperlinkButton x:Name="SetPositionToHereButton" Content="Get my current location" Click="OnSetPositionToHere"/>
-                <ProgressRing x:Name="SetPositionProgressBar" Visibility="Collapsed" Height="10" IsEnabled="True" />
+                <ProgressRing x:Name="SetPositionProgressBar" Visibility="Collapsed" Height="10" IsEnabled="True" IsActive="True" Margin="6,0,0,0"/>
             </StackPanel>
 
-            <TextBlock Grid.Row="2" Text="Latitude" Margin="0,4"/>
-            <TextBox Grid.Row="2" Grid.Column="1" x:Name="Latitude" Margin="0,4" Text="{Binding Latitude, Mode=TwoWay}"/>
+            <TextBlock Grid.Row="2" x:Uid="LatitudeField" Text=".Latitude" Margin="0,4"/>
+            <TextBox Grid.Row="2" Grid.Column="1" x:Name="Latitude" Margin="0,4" Text="{Binding Latitude, Mode=TwoWay}" InputScope="Number"/>
 
-            <TextBlock Grid.Row="3" Text="Longitude" Margin="0,4"/>
-            <TextBox Grid.Row="3" Grid.Column="1" x:Name="Longitude" Margin="0,4" Text="{Binding Longitude, Mode=TwoWay}"/>
+            <TextBlock Grid.Row="3" x:Uid="LongitudeField" Text=".Longitude" Margin="0,4"/>
+            <TextBox Grid.Row="3" Grid.Column="1" x:Name="Longitude" Margin="0,4" Text="{Binding Longitude, Mode=TwoWay}" InputScope="Number"/>
 
-            <TextBlock Grid.Row="4" Text="Radius" Margin="0,4"/>
-            <TextBox Grid.Row="4" Grid.Column="1" x:Name="Radius" Margin="0,4" Text="{Binding Radius, Mode=TwoWay}"/>
+            <TextBlock Grid.Row="4" x:Uid="RadiusField" Text=".Radius" Margin="0,4"/>
+            <TextBox Grid.Row="4" Grid.Column="1" x:Name="Radius" Margin="0,4" Text="{Binding Radius, Mode=TwoWay}" InputScope="Number"/>
 
             <Button Grid.Row="5" Grid.ColumnSpan="2" Content="Save" Command="{Binding SaveGeofencing}"/>
+
+            <TextBlock Grid.Row="6" Grid.ColumnSpan="2" Text="{Binding ErrorMessage}" Foreground="Red" Visibility="{Binding IsError, Converter={StaticResource BooleanToVisibilityConverter}}" TextWrapping="Wrap"/>
         </Grid>
 
     </Grid>

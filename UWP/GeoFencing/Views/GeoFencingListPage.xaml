@@ -46,16 +46,16 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
-                                <TextBlock Grid.Row="0" Text="Name"/>
+                                <TextBlock Grid.Row="0" x:Uid="NameField" Text=".Name"/>
                                 <TextBlock Grid.Row="0" Grid.Column="1" x:Name="Name" Text="{Binding Id, Mode=OneTime}" FontWeight="Light" Margin="6,0,0,0"/>
 
-                                <TextBlock Grid.Row="1" Text="Latitude"/>
+                                <TextBlock Grid.Row="1" x:Uid="LatitudeField" Text=".Latitude"/>
                                 <TextBlock Grid.Row="1" Grid.Column="1" x:Name="Latitude" Text="{Binding Latitude, Mode=OneTime}" FontWeight="Light" Margin="6,0,0,0"/>
 
-                                <TextBlock Grid.Row="2" Text="Longitude"/>
+                                <TextBlock Grid.Row="2" x:Uid="LongitudeField" Text=".Longitude"/>
                                 <TextBlock Grid.Row="2" Grid.Column="1" x:Name="Longitude" Text="{Binding Longitude, Mode=OneTime}" FontWeight="Light" Margin="6,0,0,0"/>
 
-                                <TextBlock Grid.Row="3" Text="Radius"/>
+                                <TextBlock Grid.Row="3" x:Uid="RadiusField" Text=".Radius"/>
                                 <TextBlock Grid.Row="3" Grid.Column="1" x:Name="Radius" Text="{Binding Radius, Mode=OneTime}" FontWeight="Light" Margin="6,0,0,0"/>
                             </Grid>
                         </DataTemplate>
