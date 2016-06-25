@@ -8,14 +8,26 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     prismMvvm:ViewModelLocator.AutoWireViewModel="True"
     xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
+    xmlns:controls="using:GeoFencing.Controls"
     mc:Ignorable="d">
 
     <Pivot>
         <PivotItem x:Uid="GeoFencingPivotItemList">
-            <ListView ItemsSource="{Binding GeoFencingList}" SelectionChanged="ListView_SelectionChanged" SelectedItem="{Binding SelectedGeoFencing, Mode=TwoWay}">
-                <ListView.ItemTemplate>
+
+            <controls:AlternatingRowListView
+                RowBackground="White"
+                AlternateRowBackground="#FAFAFA"                
+                SelectionChanged="ListView_SelectionChanged"
+                ItemsSource="{Binding GeoFencingList, Mode=OneWay}"
+                SelectionMode="Single">
+                <controls:AlternatingRowListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </controls:AlternatingRowListView.ItemContainerStyle>
+                <controls:AlternatingRowListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
+                        <Grid Margin="-12,0,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="3*"/>
@@ -36,13 +48,13 @@
 
                             <TextBlock Grid.Row="2" Text="Longitude"/>
                             <TextBlock Grid.Row="2" Grid.Column="1" x:Name="Longitude" Text="{Binding Longitude, Mode=OneTime}" FontWeight="Light" Margin="6,0,0,0"/>
-                            
+
                             <TextBlock Grid.Row="3" Text="Radius"/>
                             <TextBlock Grid.Row="3" Grid.Column="1" x:Name="Radius" Text="{Binding Radius, Mode=OneTime}" FontWeight="Light" Margin="6,0,0,0"/>
                         </Grid>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                </controls:AlternatingRowListView.ItemTemplate>
+            </controls:AlternatingRowListView>
         </PivotItem>
         <PivotItem x:Uid="GeoFencingPivotItemMap" Background="Red">
             <maps:MapControl x:Name="myMap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ZoomLevel="12" Heading="0" DesiredPitch="0" MapHolding="myMap_MapHolding"/>
