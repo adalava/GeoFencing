@@ -3,3 +3,6 @@
 ################################################################################
 
 /UWP/BackgroundTask/bin
+/UWP/BackgroundTask/obj
+/UWP/GeoFencing/bin
+/UWP/GeoFencing/obj

@@ -1,0 +1,59 @@
+﻿<Page
+    x:Class="GeoFencing.Views.GeoFencingListPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:prismMvvm="using:Prism.Windows.Mvvm"
+    xmlns:local="using:GeoFencing.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    prismMvvm:ViewModelLocator.AutoWireViewModel="True"
+    xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
+    mc:Ignorable="d">
+
+    <Pivot>
+        <PivotItem x:Uid="GeoFencingPivotItemList">
+            <ListView ItemsSource="{Binding GeoFencingList}" SelectionChanged="ListView_SelectionChanged" SelectedItem="{Binding SelectedGeoFencing, Mode=TwoWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="3*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Text="Name"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" x:Name="Name" Text="{Binding Id, Mode=OneTime}" FontWeight="Light" Margin="6,0,0,0"/>
+
+                            <TextBlock Grid.Row="1" Text="Latitude"/>
+                            <TextBlock Grid.Row="1" Grid.Column="1" x:Name="Latitude" Text="{Binding Latitude, Mode=OneTime}" FontWeight="Light" Margin="6,0,0,0"/>
+
+                            <TextBlock Grid.Row="2" Text="Longitude"/>
+                            <TextBlock Grid.Row="2" Grid.Column="1" x:Name="Longitude" Text="{Binding Longitude, Mode=OneTime}" FontWeight="Light" Margin="6,0,0,0"/>
+                            
+                            <TextBlock Grid.Row="3" Text="Radius"/>
+                            <TextBlock Grid.Row="3" Grid.Column="1" x:Name="Radius" Text="{Binding Radius, Mode=OneTime}" FontWeight="Light" Margin="6,0,0,0"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </PivotItem>
+        <PivotItem x:Uid="GeoFencingPivotItemMap" Background="Red">
+            <maps:MapControl x:Name="myMap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ZoomLevel="12" Heading="0" DesiredPitch="0" MapHolding="myMap_MapHolding"/>
+        </PivotItem>
+    </Pivot>
+
+    <Page.BottomAppBar>
+        <CommandBar IsOpen="True">
+            <AppBarButton x:Name="RemoveGeoFencingAppBarButton" Label="remove" Icon="Remove" Command="{Binding RemoveGeoFencing}" IsEnabled="False"/>
+            <AppBarButton x:Name="EditGeoFencingAppBarButton" Label="edit" Icon="Edit" Command="{Binding EditGeoFencing}" IsEnabled="False"/>
+            <AppBarButton x:Name="AddGeoFencingAppBarButton" Label="add" Icon="Add" Command="{Binding AddGeoFencing}"/>
+        </CommandBar>
+    </Page.BottomAppBar>
+</Page>
