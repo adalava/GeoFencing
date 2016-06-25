@@ -25,6 +25,8 @@ namespace GeoFencing
         public AppShell()
         {
             this.InitializeComponent();
+
+            this.Loaded += AppShell_Loaded;
         }
 
         public void SetContentFrame(Frame frame)
@@ -35,6 +37,20 @@ namespace GeoFencing
         public void SetMenuPaneContent(UIElement content)
         {
             rootSplitView.Pane = content;
+        }
+
+        private async void AppShell_Loaded(object sender, RoutedEventArgs e)
+        {
+            // turn on SystemTray for mobile
+            // don't forget to add a Reference to Windows Mobile Extensions For The UWP
+            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            {
+                var statusbar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+                await statusbar.ShowAsync();
+                statusbar.BackgroundColor = Windows.UI.Colors.DarkBlue;
+                statusbar.BackgroundOpacity = 1;
+                statusbar.ForegroundColor = Windows.UI.Colors.White;
+            }
         }
     }
 }

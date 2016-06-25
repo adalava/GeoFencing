@@ -26,6 +26,7 @@ namespace GeoFencing
         {
             var shell = Container.Resolve<AppShell>();
             shell.SetContentFrame(rootFrame);
+
             return shell;
         }
 
