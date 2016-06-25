@@ -32,6 +32,13 @@ namespace GeoFencing.ViewModels
         {
             this.navigationService = navigationService;
             this.resourceLoader = resourceLoader;
+
+            this.ClearEventsCommand = new DelegateCommand(ClearEvents);
+
+            this.BackgroundGeofenceEventHistory.CollectionChanged += (sender, args) =>
+            {
+                this.OnPropertyChanged("TotalEvents");                
+            };
         }
 
         public ObservableCollection<string> BackgroundGeofenceEventHistory
@@ -42,11 +49,7 @@ namespace GeoFencing.ViewModels
             }
             private set
             {
-                this.SetProperty(ref this.backgroundGeofenceEventHistory, value);
-                this.BackgroundGeofenceEventHistory.CollectionChanged += (sender, args) =>
-                {
-                    this.OnPropertyChanged("TotalEvents");
-                };
+                this.SetProperty(ref this.backgroundGeofenceEventHistory, value);                
             }
         }
 
@@ -67,19 +70,33 @@ namespace GeoFencing.ViewModels
             }
         }
 
+        public ICommand ClearEventsCommand { get; private set; }
+
         public override void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
         {
             var settings = ApplicationData.Current.LocalSettings;
 
             var eventsCollection = (string)settings.Values["BackgroundGeofenceEventCollection"];
-            var events = JsonValue.Parse(eventsCollection).GetArray();
-
-            foreach (var eventItem in events)
+            if (!string.IsNullOrEmpty(eventsCollection))
             {
-                this.BackgroundGeofenceEventHistory.Add(eventItem.GetString());
+                var events = JsonValue.Parse(eventsCollection).GetArray();
+
+                foreach (var eventItem in events)
+                {
+                    this.BackgroundGeofenceEventHistory.Add(eventItem.GetString());
+                }
             }
 
+            this.BackgroundGeofenceEventHistory.Add("Teste");
+
             base.OnNavigatedTo(e, viewModelState);
-        }        
+        }    
+        
+        private void ClearEvents()
+        {
+            var settings = ApplicationData.Current.LocalSettings;
+            settings.Values["BackgroundGeofenceEventCollection"] = string.Empty;
+            this.BackgroundGeofenceEventHistory.Clear();
+        }
     }
 }

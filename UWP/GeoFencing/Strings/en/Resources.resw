@@ -123,6 +123,9 @@
   <data name="ApplicationTitle.Text" xml:space="preserve">
     <value>Geo Fecing UWP</value>
   </data>
+  <data name="ClearEventsButton.Content" xml:space="preserve">
+    <value>Clear events</value>
+  </data>
   <data name="EditGeoFencingAppBarButton.Label" xml:space="preserve">
     <value>edit</value>
   </data>

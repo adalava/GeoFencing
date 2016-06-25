@@ -10,15 +10,16 @@
     xmlns:controls="using:GeoFencing.Controls"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="12,0,8,0">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="12,0,8,8">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <TextBlock x:Uid="GeoFencingHistoryPageTitle" Text=".GeoFencingHistoryPage" FontSize="18"/>
-        
+
         <TextBlock Grid.Row="1" Text="{Binding TotalEvents}" FontSize="14" Foreground="DarkGray"/>
 
         <controls:AlternatingRowListView Grid.Row="2"
@@ -37,5 +38,7 @@
                 </DataTemplate>
             </controls:AlternatingRowListView.ItemTemplate>
         </controls:AlternatingRowListView>
+
+        <Button Grid.Row="3" x:Uid="ClearEventsButton" Content=".ClearEventsButton" Command="{Binding ClearEventsCommand}"/>
     </Grid>
 </Page>
