@@ -1,0 +1,41 @@
+﻿<Page
+    x:Class="GeoFencing.Views.GeoFencingHistoryPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:prismMvvm="using:Prism.Windows.Mvvm"
+    xmlns:local="using:GeoFencing.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    prismMvvm:ViewModelLocator.AutoWireViewModel="True"
+    xmlns:controls="using:GeoFencing.Controls"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="12,0,8,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Uid="GeoFencingHistoryPageTitle" Text=".GeoFencingHistoryPage" FontSize="18"/>
+        
+        <TextBlock Grid.Row="1" Text="{Binding TotalEvents}" FontSize="14" Foreground="DarkGray"/>
+
+        <controls:AlternatingRowListView Grid.Row="2"
+                    RowBackground="White"
+                    AlternateRowBackground="#FAFAFA"                
+                    ItemsSource="{Binding BackgroundGeofenceEventHistory, Mode=OneWay}"
+                    SelectionMode="None">
+            <controls:AlternatingRowListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </controls:AlternatingRowListView.ItemContainerStyle>
+            <controls:AlternatingRowListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock FontSize="14" Text="{Binding}" Margin="-12,0,0,0"/>
+                </DataTemplate>
+            </controls:AlternatingRowListView.ItemTemplate>
+        </controls:AlternatingRowListView>
+    </Grid>
+</Page>

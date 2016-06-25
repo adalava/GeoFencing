@@ -126,6 +126,12 @@
   <data name="EditGeoFencingAppBarButton.Label" xml:space="preserve">
     <value>edit</value>
   </data>
+  <data name="GeoFencingHistoryDisplayName" xml:space="preserve">
+    <value>Background events history</value>
+  </data>
+  <data name="GeoFencingHistoryPageTitle.Text" xml:space="preserve">
+    <value>Events history</value>
+  </data>
   <data name="GeoFencingItemDisplayName" xml:space="preserve">
     <value>Create geo fencing</value>
   </data>
@@ -176,5 +182,11 @@
   </data>
   <data name="RemoveGeoFencingAppBarButton.Label" xml:space="preserve">
     <value>remove</value>
+  </data>
+  <data name="SettingsBackgroundTaskMessage.Text" xml:space="preserve">
+    <value>Control registration of a background task to receive geofencing events.</value>
+  </data>
+  <data name="TotalEvents" xml:space="preserve">
+    <value>Total number of events: {0}</value>
   </data>
 </root>

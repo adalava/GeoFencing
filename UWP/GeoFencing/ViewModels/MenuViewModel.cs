@@ -17,6 +17,7 @@ namespace GeoFencing.ViewModels
         private bool _canNavigateToGeoFencingItem = true;
         private bool _canNavigateToGeoFencingList = true;
         private bool _canNavigateToGeoFencingSettings = true;
+        private bool _canNavigateToGeoFencingHistory = true;
 
         public MenuViewModel(INavigationService navigationService, IResourceLoader resourceLoader)
         {
@@ -28,7 +29,8 @@ namespace GeoFencing.ViewModels
             {
                 new MenuItemViewModel { DisplayName = resourceLoader.GetString("GeoFencingListDisplayName"), FontIcon = "\ue8bc", Command = new DelegateCommand(NavigateToGeoFencingListPage, CanNavigateToGeoFencingListPage) },
                 new MenuItemViewModel { DisplayName = resourceLoader.GetString("GeoFencingItemDisplayName"), FontIcon = "\ue70f", Command = new DelegateCommand(NavigateToGeoFencingItemPage, CanNavigateToGeoFencingItemPage) },
-                new MenuItemViewModel { DisplayName = resourceLoader.GetString("GeoFencingSettingsDisplayName"), FontIcon = "\ue713", Command = new DelegateCommand(NavigateToGeoFencingSettingsPage, CanNavigateToGeoFencingSettingsPage) }
+                new MenuItemViewModel { DisplayName = resourceLoader.GetString("GeoFencingSettingsDisplayName"), FontIcon = "\ue713", Command = new DelegateCommand(NavigateToGeoFencingSettingsPage, CanNavigateToGeoFencingSettingsPage) },
+                new MenuItemViewModel { DisplayName = resourceLoader.GetString("GeoFencingHistoryDisplayName"), FontIcon = "\ue81c", Command = new DelegateCommand(NavigateToGeoFencingHistoryPage, CanNavigateToGeoFencingHistoryPage) }
             };
         }
 
@@ -85,6 +87,24 @@ namespace GeoFencing.ViewModels
         public bool CanNavigateToGeoFencingSettingsPage()
         {
             return _canNavigateToGeoFencingSettings;
+        }
+        
+        public void NavigateToGeoFencingHistoryPage()
+        {
+            if (CanNavigateToGeoFencingHistoryPage())
+            {
+                if (_navigationService.Navigate(PageTokens.GeoFencingHistoryPage, null))
+                {
+                    _canNavigateToGeoFencingItem = true;
+                    _canNavigateToGeoFencingList = true;
+                    RaiseCanExecuteChanged();
+                }
+            }
+        }
+
+        public bool CanNavigateToGeoFencingHistoryPage()
+        {
+            return _canNavigateToGeoFencingHistory;
         }
 
         private void RaiseCanExecuteChanged()

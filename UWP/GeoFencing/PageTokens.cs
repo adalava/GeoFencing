@@ -10,6 +10,7 @@ namespace GeoFencing
     {
         public const string GeoFencingItemPage = "GeoFencingItem";
         public const string GeoFencingListPage = "GeoFencingList";
-        internal static string GeoFencingSettingsPage = "GeoFencingSettings";
+        public const string GeoFencingHistoryPage = "GeoFencingHistory";
+        public const string GeoFencingSettingsPage = "GeoFencingSettings";
     }
 }

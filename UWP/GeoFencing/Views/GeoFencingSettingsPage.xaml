@@ -23,7 +23,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <TextBlock x:Name="InputTextBlock" TextWrapping="Wrap" HorizontalAlignment="Left" Text="Control registration of a background task to receive geofencing events." />
+            <TextBlock x:Name="InputTextBlock" x:Uid="SettingsBackgroundTaskMessage" TextWrapping="Wrap" HorizontalAlignment="Left" Text="Background events settings" />
             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,10,0,10" VerticalAlignment="Top">
                 <Button x:Name="RegisterBackgroundTaskButton" Content="Register" Margin="0,0,10,0" Command="{Binding RegisterBackgroundTask}" IsEnabled="{Binding IsTaskRegistered, Converter={StaticResource BooleanToInverseBooleanConverter}}"/>
                 <Button x:Name="UnregisterBackgroundTaskButton"  Content="Unregister" Margin="0,0,10,0" Command="{Binding UnregisterBackgroundTask}" IsEnabled="{Binding IsTaskRegistered}"/>
