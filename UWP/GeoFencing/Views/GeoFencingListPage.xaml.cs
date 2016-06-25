@@ -148,5 +148,17 @@ namespace GeoFencing.Views
         {
             this.ViewModel.AddGeoFencingItem(args.Location);
         }
+
+        private void AlternatingRowListView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            if (ViewModel.GeoFencingList.Count == 0)
+            {
+                this.GeoFencingListEmpty.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                this.GeoFencingListEmpty.Visibility = Visibility.Collapsed;
+            }            
+        }
     }
 }

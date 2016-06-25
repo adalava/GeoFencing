@@ -9,52 +9,60 @@
     prismMvvm:ViewModelLocator.AutoWireViewModel="True"
     xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
     xmlns:controls="using:GeoFencing.Controls"
+    xmlns:converters="using:GeoFencing.Converters"
     mc:Ignorable="d">
 
     <Pivot>
         <PivotItem x:Uid="GeoFencingPivotItemList">
 
-            <controls:AlternatingRowListView
-                RowBackground="White"
-                AlternateRowBackground="#FAFAFA"                
-                SelectionChanged="ListView_SelectionChanged"
-                ItemsSource="{Binding GeoFencingList, Mode=OneWay}"
-                SelectionMode="Single">
-                <controls:AlternatingRowListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    </Style>
-                </controls:AlternatingRowListView.ItemContainerStyle>
-                <controls:AlternatingRowListView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Margin="-12,0,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="3*"/>
-                            </Grid.ColumnDefinitions>
+            <Grid>
+                <TextBlock x:Name="GeoFencingListEmpty" x:Uid="GeoFencingListEmpty" Text="empty"/>
 
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
+                <controls:AlternatingRowListView
+                    RowBackground="White"
+                    AlternateRowBackground="#FAFAFA"                
+                    SelectionChanged="ListView_SelectionChanged"
+                    SelectedItem="{Binding SelectedGeoFencing, Mode=TwoWay}"
+                    ItemsSource="{Binding GeoFencingList, Mode=OneWay}"
+                    SelectionMode="Single"
+                    ContainerContentChanging="AlternatingRowListView_ContainerContentChanging">
+                    <controls:AlternatingRowListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </controls:AlternatingRowListView.ItemContainerStyle>
+                    <controls:AlternatingRowListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="-12,0,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                </Grid.ColumnDefinitions>
 
-                            <TextBlock Grid.Row="0" Text="Name"/>
-                            <TextBlock Grid.Row="0" Grid.Column="1" x:Name="Name" Text="{Binding Id, Mode=OneTime}" FontWeight="Light" Margin="6,0,0,0"/>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
 
-                            <TextBlock Grid.Row="1" Text="Latitude"/>
-                            <TextBlock Grid.Row="1" Grid.Column="1" x:Name="Latitude" Text="{Binding Latitude, Mode=OneTime}" FontWeight="Light" Margin="6,0,0,0"/>
+                                <TextBlock Grid.Row="0" Text="Name"/>
+                                <TextBlock Grid.Row="0" Grid.Column="1" x:Name="Name" Text="{Binding Id, Mode=OneTime}" FontWeight="Light" Margin="6,0,0,0"/>
 
-                            <TextBlock Grid.Row="2" Text="Longitude"/>
-                            <TextBlock Grid.Row="2" Grid.Column="1" x:Name="Longitude" Text="{Binding Longitude, Mode=OneTime}" FontWeight="Light" Margin="6,0,0,0"/>
+                                <TextBlock Grid.Row="1" Text="Latitude"/>
+                                <TextBlock Grid.Row="1" Grid.Column="1" x:Name="Latitude" Text="{Binding Latitude, Mode=OneTime}" FontWeight="Light" Margin="6,0,0,0"/>
 
-                            <TextBlock Grid.Row="3" Text="Radius"/>
-                            <TextBlock Grid.Row="3" Grid.Column="1" x:Name="Radius" Text="{Binding Radius, Mode=OneTime}" FontWeight="Light" Margin="6,0,0,0"/>
-                        </Grid>
-                    </DataTemplate>
-                </controls:AlternatingRowListView.ItemTemplate>
-            </controls:AlternatingRowListView>
+                                <TextBlock Grid.Row="2" Text="Longitude"/>
+                                <TextBlock Grid.Row="2" Grid.Column="1" x:Name="Longitude" Text="{Binding Longitude, Mode=OneTime}" FontWeight="Light" Margin="6,0,0,0"/>
+
+                                <TextBlock Grid.Row="3" Text="Radius"/>
+                                <TextBlock Grid.Row="3" Grid.Column="1" x:Name="Radius" Text="{Binding Radius, Mode=OneTime}" FontWeight="Light" Margin="6,0,0,0"/>
+                            </Grid>
+                        </DataTemplate>
+                    </controls:AlternatingRowListView.ItemTemplate>
+                </controls:AlternatingRowListView>
+            </Grid>
+            
         </PivotItem>
         <PivotItem x:Uid="GeoFencingPivotItemMap" Background="Red">
             <maps:MapControl x:Name="myMap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ZoomLevel="12" Heading="0" DesiredPitch="0" MapHolding="myMap_MapHolding"/>
@@ -63,9 +71,9 @@
 
     <Page.BottomAppBar>
         <CommandBar IsOpen="True">
-            <AppBarButton x:Name="RemoveGeoFencingAppBarButton" Label="remove" Icon="Remove" Command="{Binding RemoveGeoFencing}" IsEnabled="False"/>
-            <AppBarButton x:Name="EditGeoFencingAppBarButton" Label="edit" Icon="Edit" Command="{Binding EditGeoFencing}" IsEnabled="False"/>
-            <AppBarButton x:Name="AddGeoFencingAppBarButton" Label="add" Icon="Add" Command="{Binding AddGeoFencing}"/>
+            <AppBarButton x:Name="RemoveGeoFencingAppBarButton" x:Uid="RemoveGeoFencingAppBarButton" Label=".remove" Icon="Remove" Command="{Binding RemoveGeoFencing}" IsEnabled="False"/>
+            <AppBarButton x:Name="EditGeoFencingAppBarButton" x:Uid="EditGeoFencingAppBarButton" Label=".edit" Icon="Edit" Command="{Binding EditGeoFencing}" IsEnabled="False"/>
+            <AppBarButton x:Name="AddGeoFencingAppBarButton" x:Uid="AddGeoFencingAppBarButton" Label=".add" Icon="Add" Command="{Binding AddGeoFencing}"/>
         </CommandBar>
     </Page.BottomAppBar>
 </Page>
