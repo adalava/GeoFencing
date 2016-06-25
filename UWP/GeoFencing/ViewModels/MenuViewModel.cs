@@ -26,7 +26,7 @@ namespace GeoFencing.ViewModels
 
             Commands = new ObservableCollection<MenuItemViewModel>
             {
-                new MenuItemViewModel { DisplayName = resourceLoader.GetString("GeoFencingListDisplayName"), FontIcon = "\uea37", Command = new DelegateCommand(NavigateToGeoFencingListPage, CanNavigateToGeoFencingListPage) },
+                new MenuItemViewModel { DisplayName = resourceLoader.GetString("GeoFencingListDisplayName"), FontIcon = "\ue8bc", Command = new DelegateCommand(NavigateToGeoFencingListPage, CanNavigateToGeoFencingListPage) },
                 new MenuItemViewModel { DisplayName = resourceLoader.GetString("GeoFencingItemDisplayName"), FontIcon = "\ue70f", Command = new DelegateCommand(NavigateToGeoFencingItemPage, CanNavigateToGeoFencingItemPage) },
                 new MenuItemViewModel { DisplayName = resourceLoader.GetString("GeoFencingSettingsDisplayName"), FontIcon = "\ue713", Command = new DelegateCommand(NavigateToGeoFencingSettingsPage, CanNavigateToGeoFencingSettingsPage) }
             };

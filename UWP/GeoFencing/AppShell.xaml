@@ -38,6 +38,11 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
         <!--  Declared last to have it rendered above everything else, but it needs to be the first item in the tab sequence.  -->
         <ToggleButton x:Name="togglePaneButton"
                       IsChecked="{Binding IsPaneOpen,
@@ -45,8 +50,10 @@
                                           Mode=TwoWay}"
                       Style="{StaticResource SplitViewTogglePaneButtonStyle}"
                       TabIndex="1" />
+
+        <TextBlock Grid.Column="1" x:Uid="ApplicationTitle" Text="Application Title" Style="{ThemeResource TitleTextBlockStyle}" VerticalAlignment="Center" Margin="12,0,0,0"/>
         
-        <SplitView Grid.Row="1" x:Name="rootSplitView" Style="{StaticResource MenuSplitViewStyle}" PanePlacement="Left" CompactPaneLength="48" DisplayMode="CompactOverlay">
+        <SplitView Grid.Row="1" Grid.ColumnSpan="2" x:Name="rootSplitView" Style="{StaticResource MenuSplitViewStyle}" PanePlacement="Left" CompactPaneLength="48" DisplayMode="CompactOverlay">
             <SplitView.Pane>
                 <views:MenuView/>
             </SplitView.Pane>
