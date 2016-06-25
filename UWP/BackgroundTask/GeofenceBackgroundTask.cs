@@ -51,18 +51,11 @@ namespace BackgroundTask
             catch (UnauthorizedAccessException)
             {
                 WriteStatusToAppData("Location permissions are disabled. Enable access through the settings.");
-                WipeGeofenceDataFromAppData();
             }
             finally
             {
                 deferral.Complete();
             }
-        }
-
-        private void WipeGeofenceDataFromAppData()
-        {
-            var settings = ApplicationData.Current.LocalSettings;
-            settings.Values["GeofenceEvent"] = "";
         }
 
         private void WriteStatusToAppData(string status)
