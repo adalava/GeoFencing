@@ -172,7 +172,7 @@
     <value>Radius</value>
   </data>
   <data name="RadiusInvalid" xml:space="preserve">
-    <value>Radius must be greater then 0.1!</value>
+    <value>Radius must be greater then 1!</value>
   </data>
   <data name="RemoveGeoFencingAppBarButton.Label" xml:space="preserve">
     <value>remove</value>

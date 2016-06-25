@@ -24,8 +24,6 @@ namespace GeoFencing.ViewModels
     public class GeoFencingListPageViewModel : ViewModelBase
     {
         private INavigationService navigationService;
-        private Calendar calendar;
-        private DateTimeFormatter formatterLongTime;
 
         public delegate void OnUpdateLocationDataHandler(object sender, BasicGeoposition pos);
         public event OnUpdateLocationDataHandler OnUpdateLocationData;
@@ -35,9 +33,7 @@ namespace GeoFencing.ViewModels
             this.navigationService = navigationService;
 
             this.RemoveGeoFencing = new DelegateCommand(RemoveGeoFencingItem);
-
             this.EditGeoFencing = new DelegateCommand(EditGeoFencingItem);
-
             this.AddGeoFencing = new DelegateCommand(AddGeoFencingItem);
         }
 
@@ -52,9 +48,6 @@ namespace GeoFencing.ViewModels
         public override async void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
         {
             base.OnNavigatedTo(e, viewModelState);
-
-            this.calendar = new Calendar();
-            this.formatterLongTime = new DateTimeFormatter("{hour.integer}:{minute.integer(2)}:{second.integer(2)}", new[] { "en-US" }, "US", Windows.Globalization.CalendarIdentifiers.Gregorian, Windows.Globalization.ClockIdentifiers.TwentyFourHour);
             this.GeoFencingList = new ObservableCollection<GeofenceItem>();
 
             await this.InitializeGeolocation();
@@ -71,8 +64,7 @@ namespace GeoFencing.ViewModels
 
                     SetGeofenceList(geofences);
 
-                    // register for state change events
-                    GeofenceMonitor.Current.GeofenceStateChanged += Current_GeofenceStateChanged; ;
+                    // register for status change events
                     GeofenceMonitor.Current.StatusChanged += Current_StatusChanged; ;
 
                     // set my current position
@@ -111,7 +103,6 @@ namespace GeoFencing.ViewModels
 
         public override void OnNavigatingFrom(NavigatingFromEventArgs e, Dictionary<string, object> viewModelState, bool suspending)
         {
-            GeofenceMonitor.Current.GeofenceStateChanged -= Current_GeofenceStateChanged;
             GeofenceMonitor.Current.StatusChanged -= Current_StatusChanged;
 
             base.OnNavigatingFrom(e, viewModelState, suspending);
@@ -134,26 +125,12 @@ namespace GeoFencing.ViewModels
                 foreach (GeofenceStateChangeReport report in reports)
                 {
                     GeofenceState state = report.NewState;
+
                     Geofence geofence = report.Geofence;
-                    string eventDescription = GetTimeStampedMessage(geofence.Id) +
-                                              " (" + state.ToString();
+                    string eventDescription = string.Format("{0} ({1})", geofence.Id, state.ToString());
 
                     Debug.WriteLine(eventDescription);
                 }
-            });
-        }
-
-        private async void Current_GeofenceStateChanged(GeofenceMonitor sender, object args)
-        {
-            var status = sender.Status;
-
-            string eventDescription = GetTimeStampedMessage("Geofence Status Changed");
-            eventDescription += " (" + status.ToString() + ")";
-
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                var dialog = new MessageDialog(eventDescription);
-                await dialog.ShowAsync();
             });
         }
 
@@ -179,12 +156,6 @@ namespace GeoFencing.ViewModels
         private void EditGeoFencingItem()
         {
             this.navigationService.Navigate(PageTokens.GeoFencingItemPage, this.SelectedGeoFencing);
-        }
-
-        private string GetTimeStampedMessage(string eventCalled)
-        {
-            calendar.SetToNow();
-            return eventCalled + " " + formatterLongTime.Format(calendar.GetDateTime());
         }
     }
 }

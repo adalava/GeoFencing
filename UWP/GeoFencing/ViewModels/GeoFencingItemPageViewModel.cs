@@ -215,7 +215,7 @@ namespace GeoFencing.ViewModels
             {
                 this.ErrorMessage = this.resourceLoader.GetString("LatitudeLongitudeInvalid");
             }
-            else if (this.Radius <= 0)
+            else if (this.Radius < 1)
             {
                 this.ErrorMessage = this.resourceLoader.GetString("RadiusInvalid");
             }
