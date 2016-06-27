@@ -87,8 +87,6 @@ namespace GeoFencing.ViewModels
                 }
             }
 
-            this.BackgroundGeofenceEventHistory.Add("Teste");
-
             base.OnNavigatedTo(e, viewModelState);
         }    
         
